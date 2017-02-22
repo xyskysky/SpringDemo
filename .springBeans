@@ -10,6 +10,7 @@
 		<config>src/beans-helloworld.xml</config>
 		<config>src/beans-auto.xml</config>
 		<config>src/beans-annotation.xml</config>
+		<config>src/applicationContext.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
