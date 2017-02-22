@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
@@ -41,14 +42,59 @@
 	<util:list id="cars">
 		<ref bean="car1" />
 		<ref bean="car2" />
+
 	</util:list>
 	<util:map id="cars2">
 		<entry key="key1" value-ref="car2"></entry>
 		<entry key="key2" value-ref="car3"></entry>
 	</util:map>
-	<bean id="user1" class="com.jwn.springdemo.helloworld.User">
-	  <property name="userName" value="上海汽车"></property>
-	  <property name="cars" ref="cars"></property>
-	</bean>
 
+	<bean id="user" class="com.jwn.springdemo.helloworld.User"
+		p:userName="奥迪汽车公司">
+		<property name="cars">
+			<list>
+				<ref bean="car1" />
+				<ref bean="car2" />
+			</list>
+		</property>
+
+	</bean>
+	<!--通过ref 引用bean -->
+	<bean id="user1" class="com.jwn.springdemo.helloworld.User">
+		<property name="userName" value="上海汽车"></property>
+		<property name="cars" ref="cars"></property>
+	</bean>
+	<!-- 通过 命名空间 p:来赋值更简洁 -->
+	<bean id="user2" class="com.jwn.springdemo.helloworld.User"
+		p:userName="北京汽车集团" p:cars-ref="cars">
+	</bean>
+    <!-- bean 的继承 使用parent  进行继承 -->
+    <bean id="user3" parent="user" p:userName="Bom"></bean>
+    <bean id="user4" parent="user" p:userName="维多亿欧"></bean>
+    <!-- 添加依赖关系  -->
+    <bean id="user5" parent="user" depends-on="user4" p:userName="BlancName--depends-on"></bean>
+    
+    <bean id="dao" class="com.jwn.springdemo.ref.Dao">
+    </bean>
+    <bean id="dao1" class="com.jwn.springdemo.ref.Dao"> 
+       <!-- 为属性赋null值的格式   <null/> -->
+       <property name="dataSource"><null/></property>
+    </bean>
+    <bean id="service1" class="com.jwn.springdemo.ref.Service">
+      <property name="dao" ref="dao"></property>
+    </bean>
+    
+    <bean id="service2" class="com.jwn.springdemo.ref.Service">
+       <property name="dao">
+       <!-- 内部bean  类似于 匿名方法  不能被外界访问    也没有必须设置ID -->
+          <bean class="com.jwn.springdemo.ref.Dao" p:dataSource="c3po"></bean>
+       </property>
+    </bean>
+    
+    <bean id="action1" class="com.jwn.springdemo.ref.Action">
+       <property name="service" ref="service2"></property>
+       <!-- 设置级联属性 -->
+       <property name="service.dao.dataSource" value="jdbc"></property>
+    </bean>
+    
 </beans>
