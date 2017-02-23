@@ -1,5 +1,8 @@
 package com.jwn.springdemo.aop;
 
+import org.springframework.stereotype.Component;
+
+@Component("arithmeticCalculator")
 public class ArithmeticCalculatorImpl implements ArithmeticCalculator
 {
 

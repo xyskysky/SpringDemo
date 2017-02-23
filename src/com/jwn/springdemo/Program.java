@@ -198,13 +198,23 @@ public class Program
 		
 		
 	}
+	public static void beansAspect()
+	{
+		ClassPathXmlApplicationContext ctx=new ClassPathXmlApplicationContext("applicationContext-aop.xml");
+		
+		ArithmeticCalculator arithmeticCalculator=(ArithmeticCalculator) ctx.getBean("arithmeticCalculator");
+		int add = arithmeticCalculator.add(10, 10);
+		System.out.println("resut==="+add);
+		System.out.println("===================================================");
+		arithmeticCalculator.sum(10, 30);
+	}
 	
 	public static void main(String[] args)
 	{
 		
 		
-		
-		beansProxy();
+		beansAspect();
+		//beansProxy();
 		//beansHello();
 		//beansGenericAnnotation();
 		//beansAnnotationh();
