@@ -3,11 +3,13 @@ package com.jwn.springdemo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -15,6 +17,9 @@ import com.jwn.springdemo.annotation.UserAction;
 import com.jwn.springdemo.annotation.generic.Role;
 import com.jwn.springdemo.annotation.generic.RoleService;
 import com.jwn.springdemo.annotation.generic.UserService;
+import com.jwn.springdemo.aop.ArithmeticCalculator;
+import com.jwn.springdemo.aop.ArithmeticCalculatorImpl;
+import com.jwn.springdemo.aop.ArithmeticCalculatorLoggingProxy;
 import com.jwn.springdemo.helloworld.Car;
 import com.jwn.springdemo.helloworld.Hello;
 import com.jwn.springdemo.helloworld.HelloWorld;
@@ -181,9 +186,26 @@ public class Program
 		ctx.close();
 		
 	}
+	public static void beansProxy()
+	{
+		//使用代理方法
+		ArithmeticCalculatorLoggingProxy proxy=new ArithmeticCalculatorLoggingProxy(new ArithmeticCalculatorImpl());
+		ArithmeticCalculator loggingProxy = proxy.getLoggingProxy();
+		int add = loggingProxy.add(10, 2);
+		System.out.println("add============"+add);
+		loggingProxy.sum(10, 10);
+		
+		
+		
+	}
+	
 	public static void main(String[] args)
 	{
-		beansHello();
+		
+		
+		
+		beansProxy();
+		//beansHello();
 		//beansGenericAnnotation();
 		//beansAnnotationh();
 		// beansDataSource();
