@@ -206,7 +206,7 @@ public class Program
 		int add = arithmeticCalculator.add(10, 10);
 		System.out.println("resut==="+add);
 		System.out.println("===================================================");
-		arithmeticCalculator.sum(10, 30);
+		arithmeticCalculator.div(100, 0);
 	}
 	
 	public static void main(String[] args)

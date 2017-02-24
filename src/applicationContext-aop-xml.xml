@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<!-- 配置bean -->
+    <bean id="arithmeticCalculator" class="com.jwn.springdemo.aop.xml.ArithmeticCalculatorImpl"></bean>
+    <bean id="loggingAspect" class="com.jwn.springdemo.aop.xml.LoggingAspect"></bean>
+    <bean id="validationAspect" class="com.jwn.springdemo.aop.xml.ValidationAspect"></bean>
+    <!-- 配置AOP -->
+    <aop:config>
+       <!-- 配置切入点表达式 -->
+       <aop:pointcut expression="execution(public int com.jwn.springdemo.aop.xml.ArithmeticCalculatorImpl.*(int,int))" id="pointcut"/>
+       <aop:aspect ref="loggingAspect" order="2">
+          <aop:before method="beforeMethod" pointcut-ref="pointcut"/>
+          <aop:after method="afterMethod" pointcut-ref="pointcut"/>
+          <aop:after-returning method="afterReturning" pointcut-ref="pointcut" returning="obj"/>
+          <aop:after-throwing method="afterThrowing" pointcut-ref="pointcut" throwing="ex"/>
+          <!-- 
+            <aop:around method="aroundMethod" pointcut-ref="pointcut"/>
+           -->
+       </aop:aspect>
+       <aop:aspect ref="validationAspect" order="1">
+              <aop:before method="beforeMethod" pointcut-ref="pointcut"/>
+              <aop:after method="afterMethod" pointcut-ref="pointcut"/>
+              <aop:after-returning method="afterReturning" pointcut-ref="pointcut" returning="obj"/>
+              <aop:after-throwing method="afterThrowing" pointcut-ref="pointcut" throwing="ex"/>
+       </aop:aspect>
+    </aop:config>
+</beans>

@@ -12,6 +12,8 @@
 		<config>src/beans-annotation.xml</config>
 		<config>src/applicationContext.xml</config>
 		<config>src/applicationContext-aop.xml</config>
+		<config>src/applicationContext-aop-xml.xml</config>
+		<config>src/applicationContext-jdbc.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
