@@ -3,7 +3,9 @@ package com.jwn.spring.jdbc;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -34,6 +36,24 @@ public class JdbcTemplateTest
 		employeeDao=ctx.getBean(EmployeeDao.class);
 		namedParameterJdbcTemplate=ctx.getBean(NamedParameterJdbcTemplate.class);
 	}
+	
+	/**
+	 * 使用具名参数时, 可以使用 update(String sql, SqlParameterSource paramSource) 方法进行更新操作
+	 * 1. SQL 语句中的参数名和类的属性一致!
+	 * 2. 使用 SqlParameterSource 的 BeanPropertySqlParameterSource 实现类作为参数. 
+	 */
+	@Test
+	public void testNamedParameterJdbcTemplate2()
+	{
+		String sql="insert into employees(last_name,email,dept_id)values(:lastName,:email,:deptId)";
+		Employee employee=new Employee();
+		employee.setLastName("黎明");
+		employee.setEmail("nimingninng@1633.com");
+		employee.setDeptId(1);
+		
+		SqlParameterSource paramSource=new BeanPropertySqlParameterSource(employee);
+		namedParameterJdbcTemplate.update(sql, paramSource);
+	}
 	/**
 	 * 可以为参数起名字. 
 	 * 1. 好处: 若有多个参数, 则不用再去对应位置, 直接对应参数名, 便于维护
@@ -44,6 +64,11 @@ public class JdbcTemplateTest
 	{
 		String sql="insert into employees(last_name,email,dept_id)values(:ln,:email,:deptid);";
 	
+		Map<String, Object> paramMap=new HashMap<>();
+		paramMap.put("ln", "刘德华");
+		paramMap.put("email", "zhangdfdf@ging.comn");
+		paramMap.put("deptid", 1);
+		namedParameterJdbcTemplate.update(sql, paramMap);
 	}
 	@Test
 	public void testEmployeeDao()
