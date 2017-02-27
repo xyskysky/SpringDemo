@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- 包自动装配扫描 -->
@@ -22,7 +22,42 @@
 	</bean>
 	<!-- 配置jdbcTemplate -->
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-	   <property name="dataSource" ref="dataSource"></property>
+		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
+	<!-- 配置Bean -->
+	<bean id="bookShopDao" class="com.jwn.spring.tx.xml.BookShopDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+
+	<bean id="bookShopService" class="com.jwn.spring.tx.xml.service.impl.BookShopServiceImpl">
+		<property name="bookShopDao" ref="bookShopDao"></property>
+	</bean>
+
+	<bean id="cashierService" class="com.jwn.spring.tx.xml.service.impl.CashierServiceImpl">
+		<property name="bookShopService" ref="bookShopService"></property>
+	</bean>
+
+	<!--1 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 2配置事务属性 -->
+	<tx:advice id="tx_advice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 根据方法名指定事务的属性 可以使用通配符    -->
+			<!--<tx:method name="purchase" propagation="REQUIRES_NEW" /> -->
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 3配置事务切入点, 以及把事务切入点和事务属性关联起来 -->
+	<!-- 注意配置 pointcut expression="execution(* com.jwn.spring.tx.xml.service.*.*(..))" -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.jwn.spring.tx.xml.service.*.*(..))"
+			id="txPointCut" />
+		<aop:advisor advice-ref="tx_advice" pointcut-ref="txPointCut" />
+	</aop:config>
 </beans>
