@@ -28,6 +28,8 @@ CREATE TABLE `account` (
 
 /*Data for the table `account` */
 
+insert  into `account`(`username`,`balance`) values ('AA',30);
+
 /*Table structure for table `book` */
 
 DROP TABLE IF EXISTS `book`;
@@ -41,6 +43,8 @@ CREATE TABLE `book` (
 
 /*Data for the table `book` */
 
+insert  into `book`(`isbn`,`book_name`,`price`) values ('1001','C#',50),('1002','Java',80),('1003','JQuey',20);
+
 /*Table structure for table `book_stock` */
 
 DROP TABLE IF EXISTS `book_stock`;
@@ -52,6 +56,8 @@ CREATE TABLE `book_stock` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `book_stock` */
+
+insert  into `book_stock`(`isbn`,`stock`) values ('1001',7),('1002',10);
 
 /*Table structure for table `department` */
 
@@ -77,11 +83,11 @@ CREATE TABLE `employees` (
   `email` varchar(255) DEFAULT NULL,
   `dept_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 /*Data for the table `employees` */
 
-insert  into `employees`(`id`,`last_name`,`email`,`dept_id`) values (1,'Tome','tom_jxine@163.com',1),(2,'jack','jack12232@163.com',1),(3,'jwn_xieyong','macKjne@163.com',1),(4,'jack','jack12232@163.com',1),(5,'Marc','macKjne@163.com',1),(6,'jack','jack12232@163.com',1),(7,'Marc','macKjne@163.com',1);
+insert  into `employees`(`id`,`last_name`,`email`,`dept_id`) values (1,'Tome','tom_jxine@163.com',1),(2,'jack','jack12232@163.com',1),(3,'jwn_xieyong','macKjne@163.com',1),(4,'jack','jack12232@163.com',1),(5,'Marc','macKjne@163.com',1),(6,'jack','jack12232@163.com',1),(7,'Marc','macKjne@163.com',1),(8,'刘德华','zhangdfdf@ging.comn',1),(9,'黎明','nimingninng@1633.com',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
