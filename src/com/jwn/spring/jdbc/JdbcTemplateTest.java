@@ -28,12 +28,15 @@ public class JdbcTemplateTest
 	
 	private EmployeeDao employeeDao;
 	
+	private DepartmentDao departmentDao;
+	
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	{
 		ctx = new ClassPathXmlApplicationContext("applicationContext-jdbc.xml");
 		jdbcTemplate = ctx.getBean(JdbcTemplate.class);
 		
 		employeeDao=ctx.getBean(EmployeeDao.class);
+		departmentDao=ctx.getBean(DepartmentDao.class);
 		namedParameterJdbcTemplate=ctx.getBean(NamedParameterJdbcTemplate.class);
 	}
 	
@@ -53,6 +56,11 @@ public class JdbcTemplateTest
 		
 		SqlParameterSource paramSource=new BeanPropertySqlParameterSource(employee);
 		namedParameterJdbcTemplate.update(sql, paramSource);
+	}
+	
+	@Test
+	public void testDepartmentDao(){
+		System.out.println(departmentDao.get(1));
 	}
 	/**
 	 * 可以为参数起名字. 
