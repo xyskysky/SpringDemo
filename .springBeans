@@ -15,6 +15,7 @@
 		<config>src/applicationContext-aop-xml.xml</config>
 		<config>src/applicationContext-jdbc.xml</config>
 		<config>src/applicationContext-tx-xml.xml</config>
+		<config>src/applicationContext-hibernate.xml</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>
